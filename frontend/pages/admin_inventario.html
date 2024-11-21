@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventario - 8cho</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        body {
+            overflow-x: hidden;
+            background-color: #1e1e2f; /* Fondo oscuro */
+            color: #ffffff; /* Texto claro */
+        }
+        .navbar {
+            background-color: #2c2c38;
+        }
+        .sidebar {
+            height: 100vh;
+            background-color: #2c2c38;
+            border-right: 1px solid #444;
+        }
+        .sidebar h5 {
+            color: #ffffff;
+        }
+        .sidebar .nav-link {
+            color: #bbbbbb;
+        }
+        .sidebar .nav-link:hover {
+            color: #ffffff;
+        }
+        .content {
+            margin-left: 250px;
+        }
+        .table-container {
+            flex: 1;
+        }
+        .btn-primary {
+            background-color: #556cd6;
+            border-color: #556cd6;
+            width: 100%;
+        }
+        .btn-primary:hover {
+            background-color: #445bb3;
+            border-color: #445bb3;
+        }
+        .action-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar Superior -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">8cho</a>
+            <form class="d-flex mx-auto" style="width: 50%;">
+                <input class="form-control me-2 bg-dark text-light border-0" 
+                       type="search" 
+                       placeholder="Buscar productos" 
+                       aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Buscar</button>
+            </form>
+            <div class="d-flex align-items-center">
+                <span class="me-3">Usuario</span>
+                <button class="btn btn-outline-danger">Log Out</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenedor Principal -->
+    <div class="d-flex">
+        <!-- Barra Lateral -->
+        <div class="sidebar p-3">
+            <h5>Navegación</h5>
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Empleados</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="#">Inventario</a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Contenido Principal -->
+        <div class="content p-4">
+            <h2>Inventario</h2>
+            <div class="d-flex">
+                <!-- Tabla de Entradas -->
+                <div class="table-container me-4">
+                    <h4>Entradas</h4>
+                    <div class="table-responsive">
+                        <table class="table table-dark table-hover align-middle">
+                            <thead>
+                                <tr>
+                                    <th>Producto</th>
+                                    <th>Cantidad</th>
+                                    <th>Fecha</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Ejemplo de entrada -->
+                                <tr>
+                                    <td>Producto 1</td>
+                                    <td>20</td>
+                                    <td>2024-11-20</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-warning me-2">
+                                            <i class="bi bi-pencil-fill"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-danger">
+                                            <i class="bi bi-trash-fill"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Tabla de Salidas -->
+                <div class="table-container me-4">
+                    <h4>Salidas</h4>
+                    <div class="table-responsive">
+                        <table class="table table-dark table-hover align-middle">
+                            <thead>
+                                <tr>
+                                    <th>Producto</th>
+                                    <th>Cantidad</th>
+                                    <th>Fecha</th>
+                                    <th>Tipo</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Ejemplo de salida -->
+                                <tr>
+                                    <td>Producto 2</td>
+                                    <td>10</td>
+                                    <td>2024-11-20</td>
+                                    <td>Venta</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-warning me-2">
+                                            <i class="bi bi-pencil-fill"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-danger">
+                                            <i class="bi bi-trash-fill"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Botones de acción -->
+                <div class="action-buttons">
+                    <button class="btn btn-primary">
+                        <i class="bi bi-box-arrow-in-down me-2"></i>Registrar Entrada
+                    </button>
+                    <button class="btn btn-primary">
+                        <i class="bi bi-box-arrow-up me-2"></i>Registrar Salida
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
+</body>
+</html>
