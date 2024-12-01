@@ -89,7 +89,6 @@ async function eliminarVenta(id_venta) {
 
 // Función para editar una venta
 function editarVenta(id_venta) {
-  // Aquí puedes implementar la lógica para cargar los datos de la venta y mostrarlos en un modal para editar
   alert("Funcionalidad de editar no implementada");
 }
 

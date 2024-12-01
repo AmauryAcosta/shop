@@ -11,7 +11,7 @@ header("Access-Control-Allow-Headers: Content-Type");
 
 // Manejo de las solicitudes POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Obtiene los datos del cuerpo de la solicitud
+
     $data = json_decode(file_get_contents("php://input"));
 
     // Verifica que se reciban los datos necesarios
