@@ -70,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
     }
 }
 
-// Manejo de las solicitudes PUT (Actualizar)
+/* // Manejo de las solicitudes PUT (Actualizar)
 if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
     $data = json_decode(file_get_contents("php://input"));
 
@@ -99,6 +99,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
             }
         } else {
             echo json_encode(['status' => 'error', 'message' => 'El producto no existe.']);
+        }
+    } else {
+        echo json_encode(['status' => 'error', 'message' => 'Datos incompletos.']);
+    }
+} */
+
+// Manejo de las solicitudes PUT 
+if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
+    $data = json_decode(file_get_contents("php://input"));
+
+    if (isset($data->id_inventario) && isset($data->cantidad)) {
+        $id_inventario = $data->id_inventario;
+        $cantidad = $data->cantidad;
+
+        // Intentar actualizar solo la cantidad
+        $sql = "UPDATE inventario SET cantidad = :cantidad WHERE id_inventario = :id_inventario";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':id_inventario', $id_inventario);
+        $stmt->bindParam(':cantidad', $cantidad);
+
+        if ($stmt->execute()) {
+            echo json_encode(['status' => 'success', 'message' => 'Cantidad de inventario actualizada correctamente.']);
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Error al actualizar el inventario.']);
         }
     } else {
         echo json_encode(['status' => 'error', 'message' => 'Datos incompletos.']);

@@ -112,50 +112,17 @@
 
             <!-- Tabla de Empleados -->
             <div class="table-responsive">
-                <table class="table table-dark table-hover align-middle">
+                <table class="table table-dark table-hover align-middle" id="tablaEmpleados">
                     <thead>
                         <tr>
                             <th>Nombre</th>
-                            <th>A. Paterno</th>
-                            <th>A. Materno</th>
-                            <th>Usuario</th>
-                            <th>Rol</th>
+                            <th>Puesto</th>
+                            <th>Fecha de Contratación</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>Juan</td>
-                            <td>Pérez</td>
-                            <td>Lopez</td>
-                            <td>juanp</td>
-                            <td>Admin</td>
-                            <td>
-                                <button class="btn btn-warning btn-sm" data-bs-toggle="modal"
-                                    data-bs-target="#modalEditarEmpleado">
-                                    <i class="bi bi-pencil-fill"></i> Editar
-                                </button>
-                                <button class="btn btn-sm btn-danger">
-                                    <i class="bi bi-trash-fill"></i>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Maria</td>
-                            <td>Gomez</td>
-                            <td>Martinez</td>
-                            <td>mariag</td>
-                            <td>Empleado</td>
-                            <td>
-                                <button class="btn btn-warning btn-sm" data-bs-toggle="modal"
-                                    data-bs-target="#modalEditarEmpleado">
-                                    <i class="bi bi-pencil-fill"></i> Editar
-                                </button>
-                                <button class="btn btn-sm btn-danger">
-                                    <i class="bi bi-trash-fill"></i>
-                                </button>
-                            </td>
-                        </tr>
+                        <!-- Aquí se llenará dinámicamente con JavaScript -->
                     </tbody>
                 </table>
             </div>
@@ -164,7 +131,7 @@
 
     <!-- Modales -->
     <!-- Modal para Registrar -->
-    <div class="modal fade" id="modalEmpleado" tabindex="-1" aria-labelledby="modalEmpleadoLabel" aria-hidden="true">
+    <div class="modal fade" id="modalEmpleado" tabindex="-1" aria -labelledby="modalEmpleadoLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content bg-dark text-light">
                 <div class="modal-header">
@@ -173,36 +140,24 @@
                         aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <form id="formRegistrarEmpleado">
                         <div class="mb-3">
                             <label for="nombreEmpleado" class="form-label">Nombre</label>
-                            <input type="text" class="form-control" id="nombreEmpleado" placeholder="Nombre">
+                            <input type="text" class="form-control" id="nombreEmpleado" placeholder="Nombre" required>
                         </div>
                         <div class="mb-3">
-                            <label for="apellidoPaterno" class="form-label">Apellido Paterno</label>
-                            <input type="text" class="form-control" id="apellidoPaterno" placeholder="Apellido Paterno">
+                            <label for="puestoEmpleado" class="form-label">Puesto</label>
+                            <input type="text" class="form-control" id="puestoEmpleado" placeholder="Puesto" required>
                         </div>
                         <div class="mb-3">
-                            <label for="apellidoMaterno" class="form-label">Apellido Materno</label>
-                            <input type="text" class="form-control" id="apellidoMaterno" placeholder="Apellido Materno">
-                        </div>
-                        <div class="mb-3">
-                            <label for="usuarioEmpleado" class="form-label">Usuario</label>
-                            <input type="text" class="form-control" id="usuarioEmpleado"
-                                placeholder="Nombre de usuario">
-                        </div>
-                        <div class="mb-3">
-                            <label for="rolEmpleado" class="form-label">Rol</label>
-                            <select class="form-select" id="rolEmpleado">
-                                <option>Empleado</option>
-                                <option>Supervisor</option>
-                            </select>
+                            <label for="fechaContratacion" class="form-label">Fecha de Contratación</label>
+                            <input type="date" class="form-control" id="fechaContratacion" required>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary">Guardar Empleado</button>
+                    <button type="button" class="btn btn-primary" id="guardarEmpleadoBtn">Guardar Empleado</button>
                 </div>
             </div>
         </div>
@@ -219,49 +174,36 @@
                         aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <form id="formEditarEmpleado">
+                        <input type="hidden" id="id_empleado"> <!-- Campo oculto para el ID -->
                         <div class="mb-3">
                             <label for="editarNombreEmpleado" class="form-label">Nombre</label>
                             <input type="text" class="form-control" id="editarNombreEmpleado" placeholder="Nombre"
-                                value="John">
+                                required>
                         </div>
                         <div class="mb-3">
-                            <label for="editarApellidoPaterno" class="form-label">Apellido Paterno</label>
-                            <input type="text" class="form-control" id="editarApellidoPaterno"
-                                placeholder="Apellido Paterno" value="Doe">
+                            <label for="editarPuestoEmpleado" class="form-label">Puesto</label>
+                            <input type="text" class="form-control" id="editarPuestoEmpleado" placeholder="Puesto"
+                                required>
                         </div>
                         <div class="mb-3">
-                            <label for="editarApellidoMaterno" class="form-label">Apellido Materno</label>
-                            <input type="text" class="form-control" id="editarApellidoMaterno"
-                                placeholder="Apellido Materno" value="Smith">
-                        </div>
-                        <div class="mb-3">
-                            <label for="editarUsuarioEmpleado" class="form-label">Usuario</label>
-                            <input type="text" class="form-control" id="editarUsuarioEmpleado"
-                                placeholder="Nombre de usuario" value="jdoe">
-                        </div>
-                        <div class="mb-3">
-                            <label for="editarRolEmpleado" class="form-label">Rol</label>
-                            <select class="form-select" id="editarRolEmpleado">
-                                <option>Administrador</option>
-                                <option selected>Empleado</option>
-                                <option>Supervisor</option>
-                            </select>
+                            <label for="editarFechaContratacion" class="form-label">Fecha de Contratación</label>
+                            <input type="date" class="form-control" id="editarFechaContratacion" required>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary">Guardar Cambios</button>
+                    <button type="button" class="btn btn-primary" id="guardarCambiosBtn">Guardar Cambios</button>
                 </div>
             </div>
         </div>
     </div>
 
-
+    <script src="../js/empleados.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
-    <script src="../js/empleados.js"></script>
+
 </body>
 
 </html>

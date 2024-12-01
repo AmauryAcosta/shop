@@ -3,6 +3,11 @@
 require 'db.php';
 
 header('Content-Type: application/json');
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
+header("Access-Control-Allow-Headers: Content-Type");
+
+
 
 // Manejo de las solicitudes POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -51,12 +56,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
     $data = json_decode(file_get_contents("php://input"));
 
-    if (isset($data->id)) {
-        $id = $data->id;
+    if (isset($data->id_empleado)) {
+        $id_empleado = $data->id_empleado;
 
-        $sql = "DELETE FROM empleados WHERE id_empleado = :id";
+        $sql = "DELETE FROM empleados WHERE id_empleado = :id_empleado";
         $stmt = $pdo->prepare($sql);
-        $stmt->bindParam(':id', $id);
+        $stmt->bindParam(':id_empleado', $id_empleado);
 
         if ($stmt->execute()) {
             echo json_encode(['status' => 'success', 'message' => 'Empleado eliminado correctamente.']);
@@ -71,7 +76,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
 // Manejo de las solicitudes PUT
 if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
     $data = json_decode(file_get_contents("php://input"));
-
 
     if (isset($data->id_empleado) && isset($data->nombre) && isset($data->puesto) && isset($data->fecha_contratacion)) {
         $id_empleado = $data->id_empleado;
@@ -95,4 +99,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
         echo json_encode(['status' => 'error', 'message' => 'Datos incompletos.']);
     }
 }
+
 ?>
