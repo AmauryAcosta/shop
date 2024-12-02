@@ -1,23 +1,32 @@
-document
-  .getElementById("loginForm")
-  .addEventListener("submit", function (event) {
-    event.preventDefault();
-    const usuario = document.getElementById("usuario").value;
-    const password = document.getElementById("password").value;
+document.getElementById("loginForm").addEventListener("submit", async function (event) {
+  event.preventDefault();
 
-    // Verificar credenciales del usuario
-    const user = users.find(
-      (u) => u.usuario === usuario && u.password === password
-    );
+  const usuario = document.getElementById("usuario").value;
+  const password = document.getElementById("password").value;
 
-    if (user) {
-      // Redirigir según el rol
-      if (user.role === "admin") {
-        window.location.href = "admin.html";
-      } else if (user.role === "user") {
-        window.location.href = "user.html";
-      }
-    } else {
-      alert("Usuario o contraseña incorrecta. Por favor intenta de nuevo");
+  try {
+    // Enviar las credenciales al backend
+    const response = await fetch("/api/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ usuario, password }),
+    });
+
+    if (!response.ok) {
+      throw new Error("Usuario o contraseña incorrecta.");
     }
-  });
+
+    const data = await response.json();
+
+    // Redirigir según el rol
+    if (data.role === "admin") {
+      window.location.href = "admin.html";
+    } else if (data.role === "user") {
+      window.location.href = "user.html";
+    }
+  } catch (error) {
+    alert(error.message);
+  }
+});

@@ -8,6 +8,8 @@ CREATE TABLE empleados (
     id_empleado INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
     puesto VARCHAR(50) NOT NULL,
+    usuario VARCHAR(250) NOT NULL, 
+    password VARCHAR(250) NOT NULL,
     fecha_contratacion DATE NOT NULL
 );
 

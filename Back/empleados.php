@@ -8,35 +8,47 @@ header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
 header("Access-Control-Allow-Headers: Content-Type");
 
 
+$requestUri = $_SERVER['REQUEST_URI'];
 
 // Manejo de las solicitudes POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (strpos($requestUri, '/api/login') !== false) {
+        $input = json_decode(file_get_contents('php://input'), true);
+        $usuario = $input['usuario'];
+        $password = $input['password'];
 
-    $data = json_decode(file_get_contents("php://input"));
-
-    // Verifica que se reciban los datos necesarios
-    if (isset($data->nombre) && isset($data->puesto) && isset($data->fecha_contratacion)) {
-        $nombre = $data->nombre;
-        $puesto = $data->puesto;
-        $fechaContratacion = $data->fecha_contratacion;
-
-        // Prepara la consulta SQL para insertar un nuevo empleado
-        $sql = "INSERT INTO empleados (nombre, puesto, fecha_contratacion) VALUES (:nombre, :puesto, :fecha_contratacion)";
+        $sql = "SELECT role FROM usuarios WHERE usuario = :usuario AND password = :password";
         $stmt = $pdo->prepare($sql);
+        $stmt->execute(['usuario' => $usuario, 'password' => $password]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        // Asigna los parámetros
-        $stmt->bindParam(':nombre', $nombre);
-        $stmt->bindParam(':puesto', $puesto);
-        $stmt->bindParam(':fecha_contratacion', $fechaContratacion);
+        if ($user) {
+            echo json_encode(['role' => $user['role']]);
+        } else {
+            http_response_code(401);
+            echo json_encode(['error' => 'Credenciales inválidas']);
+        }
+    } elseif (strpos($requestUri, '/api/empleados') !== false) {
+        $data = json_decode(file_get_contents("php://input"));
 
-        // Ejecuta la consulta
-        if ($stmt->execute()) {
+        if (isset($data->nombre) && isset($data->puesto) && isset($data->usuario) && isset($data->password) && isset($data->fecha_contratacion)) {
+            $hashedPassword = password_hash($data->password, PASSWORD_DEFAULT);
+
+            $sql = "INSERT INTO empleados (nombre, puesto, usuario, password, fecha_contratacion) VALUES (:nombre, :puesto, :usuario, :password, :fecha_contratacion)";
+            $stmt = $pdo->prepare($sql);
+
+            $stmt->execute([
+                ':nombre' => $data->nombre,
+                ':puesto' => $data->puesto,
+                ':usuario' => $data->usuario,
+                ':password' => $hashedPassword,
+                ':fecha_contratacion' => $data->fecha_contratacion
+            ]);
+
             echo json_encode(['status' => 'success', 'message' => 'Empleado agregado correctamente.']);
         } else {
-            echo json_encode(['status' => 'error', 'message' => 'Error al agregar el empleado.']);
+            echo json_encode(['status' => 'error', 'message' => 'Datos incompletos.']);
         }
-    } else {
-        echo json_encode(['status' => 'error', 'message' => 'Datos incompletos.']);
     }
 }
 
