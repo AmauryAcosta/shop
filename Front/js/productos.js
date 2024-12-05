@@ -1,5 +1,5 @@
 // Ruta base para las solicitudes
-const BASE_URL = "/shop/Back/productos.php";
+const BASE_URL = "/SHOP/Back/productos.php";
 
 // Obtener todos los productos y mostrarlos en la tabla
 async function obtenerProductos() {
@@ -67,19 +67,27 @@ document
 function editarProducto(id) {
   fetch(`${BASE_URL}?id_producto=${id}`, { method: "GET" })
     .then((response) => response.json())
-    .then((producto) => {
-      document.getElementById("id_producto").value = producto.id_producto;
-      document.getElementById("editarNombreProducto").value =
-        producto.nombre_producto;
-      document.getElementById("editarDescripcionProducto").value =
-        producto.descripcion;
-      document.getElementById("editarPrecioProducto").value = producto.precio;
-      document.getElementById("editarEstadoProducto").value = producto.estado;
+    .then((productos) => {
+      // Verifica que la respuesta sea un array y que contenga al menos un producto
+      if (Array.isArray(productos) && productos.length > 0) {
+        const producto = productos[0]; // Accede al primer elemento del array
 
-      const modalEditar = new bootstrap.Modal(
-        document.getElementById("modalEditarProducto")
-      );
-      modalEditar.show();
+        // Asigna los valores a los campos del formulario
+        document.getElementById("id_producto").value = producto.id_producto;
+        document.getElementById("editarNombreProducto").value =
+          producto.nombre_producto;
+        document.getElementById("editarDescripcionProducto").value =
+          producto.descripcion;
+        document.getElementById("editarPrecioProducto").value = producto.precio;
+        document.getElementById("editarEstadoProducto").value = producto.estado;
+
+        const modalEditar = new bootstrap.Modal(
+          document.getElementById("modalEditarProducto")
+        );
+        modalEditar.show();
+      } else {
+        console.error("Producto no encontrado o respuesta no válida");
+      }
     })
     .catch((error) => console.error("Error:", error));
 }

@@ -75,21 +75,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
 
 // Manejo de las solicitudes PUT
 if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
+    // Obtener los datos JSON del cuerpo de la solicitud
     $data = json_decode(file_get_contents("php://input"));
 
+    // Validar si los campos necesarios están presentes
     if (isset($data->id_empleado) && isset($data->nombre) && isset($data->puesto) && isset($data->fecha_contratacion)) {
         $id_empleado = $data->id_empleado;
         $nombre = $data->nombre;
         $puesto = $data->puesto;
         $fechaContratacion = $data->fecha_contratacion;
 
+        // Preparar la consulta SQL para actualizar el empleado
         $sql = "UPDATE empleados SET nombre = :nombre, puesto = :puesto, fecha_contratacion = :fecha_contratacion WHERE id_empleado = :id_empleado";
         $stmt = $pdo->prepare($sql);
+
+        // Vincular los parámetros de la consulta
         $stmt->bindParam(':id_empleado', $id_empleado);
         $stmt->bindParam(':nombre', $nombre);
         $stmt->bindParam(':puesto', $puesto);
         $stmt->bindParam(':fecha_contratacion', $fechaContratacion);
 
+        // Ejecutar la consulta y devolver la respuesta
         if ($stmt->execute()) {
             echo json_encode(['status' => 'success', 'message' => 'Empleado actualizado correctamente.']);
         } else {
@@ -99,5 +105,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
         echo json_encode(['status' => 'error', 'message' => 'Datos incompletos.']);
     }
 }
+
 
 ?>
