@@ -15,6 +15,7 @@ async function obtenerEmpleados() {
       row.innerHTML = `
                 <td>${empleado.nombre}</td>
                 <td>${empleado.puesto}</td>
+                <td>${empleado.usuario}</td>
                 <td>${empleado.fecha_contratacion}</td>
                 <td>
                     <button class="btn btn-warning btn-sm" onclick="editarEmpleado(${empleado.id_empleado})">
@@ -38,6 +39,8 @@ document
   .addEventListener("click", async () => {
     const nombre = document.getElementById("nombreEmpleado").value;
     const puesto = document.getElementById("puestoEmpleado").value;
+    const usuario = document.getElementById("usuarioEmpleado").value;
+    const password = document.getElementById("passwordEmpleado").value;
     const fechaContratacion =
       document.getElementById("fechaContratacion").value;
 
@@ -48,6 +51,8 @@ document
         body: JSON.stringify({
           nombre,
           puesto,
+          usuario,
+          password,
           fecha_contratacion: fechaContratacion,
         }),
       });
@@ -69,6 +74,8 @@ function editarEmpleado(id) {
       document.getElementById("id_empleado").value = empleado.id_empleado;
       document.getElementById("editarNombreEmpleado").value = empleado.nombre;
       document.getElementById("editarPuestoEmpleado").value = empleado.puesto;
+      document.getElementById("editarUsuarioEmpleado").value = empleado.usuario;
+      document.getElementById("editarPasswordEmpleado").value = empleado.password;
       document.getElementById("editarFechaContratacion").value =
         empleado.fecha_contratacion;
 
@@ -87,6 +94,8 @@ document
     const id_empleado = document.getElementById("id_empleado").value;
     const nombre = document.getElementById("editarNombreEmpleado").value;
     const puesto = document.getElementById("editarPuestoEmpleado").value;
+    const usuario = document.getElementById("editarUsuarioEmpleado").value;
+    const password = document.getElementById("editarPasswordEmpleado").value;
     const fechaContratacion = document.getElementById(
       "editarFechaContratacion"
     ).value;
@@ -99,6 +108,8 @@ document
           id_empleado,
           nombre,
           puesto,
+          usuario,
+          password,
           fecha_contratacion: fechaContratacion,
         }),
       });
