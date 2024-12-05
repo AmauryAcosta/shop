@@ -5,7 +5,6 @@ document.getElementById("loginForm").addEventListener("submit", async function (
   const password = document.getElementById("password").value;
 
   try {
-    // Enviar las credenciales al backend
     const response = await fetch("/api/login", {
       method: "POST",
       headers: {
@@ -20,11 +19,12 @@ document.getElementById("loginForm").addEventListener("submit", async function (
 
     const data = await response.json();
 
-    // Redirigir según el rol
     if (data.role === "admin") {
       window.location.href = "admin.html";
     } else if (data.role === "user") {
       window.location.href = "user.html";
+    } else {
+      throw new Error("Rol no reconocido.");
     }
   } catch (error) {
     alert(error.message);
