@@ -17,13 +17,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $usuario = $input['usuario'];
         $password = $input['password'];
 
-        $sql = "SELECT role FROM usuarios WHERE usuario = :usuario AND password = :password";
+        $sql = "SELECT puesto FROM usuarios WHERE usuario = :usuario AND password = :password";
         $stmt = $pdo->prepare($sql);
         $stmt->execute(['usuario' => $usuario, 'password' => $password]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($user) {
-            echo json_encode(['role' => $user['role']]);
+            echo json_encode(['puesto' => $user['puesto']]);
         } else {
             http_response_code(401);
             echo json_encode(['error' => 'Credenciales inválidas']);
